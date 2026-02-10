@@ -1,24 +1,251 @@
-.attraction-title {
-  font-size: 18px;
-  font-weight: 500;
-  background-color: darkgrey;
-  width: fit-content;
-  margin-top: 25px;
+.admin-container {
+  padding: 40px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
 }
-.attraction {
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  
+  h1 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    color: #2c3e50;
+    font-size: 2em;
+    
+    mat-icon {
+      font-size: 36px;
+      width: 36px;
+      height: 36px;
+      color: #667eea;
+    }
+  }
+  
+  .add-button {
+    height: 48px;
+    font-size: 1.1em;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+mat-divider {
+  margin: 30px 0;
+}
+
+.attractions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.attraction-admin-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-left: 4px solid #667eea;
+  
+  &.not-visible {
+    opacity: 0.7;
+    border-left-color: #e74c3c;
+  }
+  
+  &:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid #dee2e6;
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    
+    .drag-icon {
+      color: #999;
+      cursor: move;
+    }
+    
+    .card-title {
+      font-size: 1.3em;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    .visibility-icon {
+      color: #e74c3c;
+      font-size: 20px;
+    }
+  }
+  
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.attraction-form {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  
+  &.actions-row {
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+}
+
+.form-field {
+  flex: 1;
+  
+  &.full-width {
+    width: 100%;
+  }
+}
+
+.difficulty-preview {
   display: flex;
   align-items: center;
-  column-gap: 25px;
-  width: fit-content;
-
-  border-bottom: solid 1px grey;
+  gap: 10px;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  
   span {
-    padding: 5px;
-    width: 250px;
+    color: #666;
+    font-weight: 500;
   }
-  .champ {
-    padding: 5px;
-    margin-top: 21.5px;
-    width: 250px;
+  
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: #ddd;
+    
+    &.filled {
+      color: #ffc107;
+    }
+  }
+}
+
+.visibility-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  mat-icon {
+    margin-right: 5px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  
+  button {
+    height: 42px;
+    
+    mat-icon {
+      margin-right: 5px;
+    }
+  }
+}
+
+.no-attractions {
+  text-align: center;
+  padding: 80px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: #667eea;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 1.2em;
+    color: #666;
+  }
+}
+
+// Snackbar styles
+::ng-deep {
+  .success-snackbar {
+    background-color: #4caf50 !important;
+    color: white !important;
+  }
+  
+  .error-snackbar {
+    background-color: #f44336 !important;
+    color: white !important;
+  }
+  
+  .warning-snackbar {
+    background-color: #ff9800 !important;
+    color: white !important;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 20px;
+  }
+  
+  .admin-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+    
+    h1 {
+      font-size: 1.5em;
+    }
+    
+    .add-button {
+      width: 100%;
+    }
+  }
+  
+  .form-row {
+    flex-direction: column;
+    
+    &.actions-row {
+      flex-direction: column;
+    }
+  }
+  
+  .difficulty-preview {
+    width: 100%;
   }
 }

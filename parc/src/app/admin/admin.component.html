@@ -1,43 +1,118 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Page administrateur pour <button mat-button (click)="addAttraction()">Ajouter</button>, modifier et supprimer des attractions</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="attraction-title">
-      <div class="attraction">
-        <span>Nom de l'attraction</span>
-        <span>Description de l'attraction</span>
-        <span>Difficulté de l'attraction / 5</span>
-        <span>Visible</span>
-      </div>
-    </div>
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>
+      <mat-icon>admin_panel_settings</mat-icon>
+      Panneau d'Administration
+    </h1>
+    <button mat-raised-button color="primary" (click)="addAttraction()" class="add-button">
+      <mat-icon>add_circle</mat-icon>
+      Nouvelle Attraction
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="attractions-list">
     <ng-container *ngIf="attractions | async">
-      <ng-container *ngFor="let formulaireAttraction of formulaireAttractions; let indexForm = index;"
-        [formGroup]="formulaireAttraction"
-        style="display: flex; flex-direction: column;"
-      >
-        <div class="attraction">
-          <mat-form-field class="champ" appearance="fill">
-            <mat-label>Nom</mat-label>
-            <input matInput formControlName="nom">
-          </mat-form-field>
-      
-          <mat-form-field class="champ" appearance="fill">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description">
-          </mat-form-field>
-  
-          <mat-form-field class="champ" appearance="fill">
-            <mat-label>Difficulté / 5</mat-label>
-            <input matInput formControlName="difficulte" type="number">
-          </mat-form-field>
-
-          <mat-slide-toggle class="champ" formControlName="visible">Element visible</mat-slide-toggle>
-
-          <button mat-button (click)="onSubmit(formulaireAttraction)" class="champ">Enregistrer</button>
+      <mat-card *ngFor="let formulaireAttraction of formulaireAttractions; let indexForm = index;" 
+                class="attraction-admin-card"
+                [class.not-visible]="!formulaireAttraction.get('visible')?.value">
+        
+        <div class="card-header">
+          <div class="header-left">
+            <mat-icon class="drag-icon">drag_indicator</mat-icon>
+            <span class="card-title">
+              {{ formulaireAttraction.get('nom')?.value || 'Nouvelle Attraction' }}
+            </span>
+            <mat-icon *ngIf="!formulaireAttraction.get('visible')?.value" 
+                      class="visibility-icon"
+                      matTooltip="Non visible par les visiteurs">
+              visibility_off
+            </mat-icon>
+          </div>
+          
+          <div class="header-actions">
+            <button mat-icon-button 
+                    color="warn" 
+                    (click)="deleteAttraction(indexForm, formulaireAttraction.get('attraction_id')?.value)"
+                    matTooltip="Supprimer">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
-      </ng-container>
-    </ng-container>
-  </mat-card-content>
-</mat-card>
 
+        <form [formGroup]="formulaireAttraction" class="attraction-form">
+          
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Nom de l'attraction</mat-label>
+              <input matInput formControlName="nom" placeholder="Ex: Silver Star">
+              <mat-icon matPrefix>attractions</mat-icon>
+              <mat-error *ngIf="formulaireAttraction.get('nom')?.hasError('required')">
+                Le nom est requis
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field full-width">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3" 
+                        placeholder="Décrivez l'attraction..."></textarea>
+              <mat-icon matPrefix>description</mat-icon>
+              <mat-error *ngIf="formulaireAttraction.get('description')?.hasError('required')">
+                La description est requise
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Difficulté</mat-label>
+              <input matInput formControlName="difficulte" type="number" min="1" max="5">
+              <mat-icon matPrefix>trending_up</mat-icon>
+              <mat-hint>De 1 (facile) à 5 (difficile)</mat-hint>
+              <mat-error *ngIf="formulaireAttraction.get('difficulte')?.hasError('min')">
+                Minimum 1
+              </mat-error>
+              <mat-error *ngIf="formulaireAttraction.get('difficulte')?.hasError('max')">
+                Maximum 5
+              </mat-error>
+            </mat-form-field>
+
+            <div class="difficulty-preview">
+              <span>Aperçu:</span>
+              <mat-icon *ngFor="let star of getDifficultyStars(formulaireAttraction.get('difficulte')?.value || 0)"
+                        [class.filled]="star === 'star'">
+                {{ star }}
+              </mat-icon>
+            </div>
+          </div>
+
+          <div class="form-row actions-row">
+            <mat-slide-toggle formControlName="visible" class="visibility-toggle">
+              <mat-icon>{{ formulaireAttraction.get('visible')?.value ? 'visibility' : 'visibility_off' }}</mat-icon>
+              {{ formulaireAttraction.get('visible')?.value ? 'Visible par les visiteurs' : 'Masqué aux visiteurs' }}
+            </mat-slide-toggle>
+
+            <div class="action-buttons">
+              <button mat-raised-button 
+                      color="primary" 
+                      (click)="onSubmit(formulaireAttraction)"
+                      [disabled]="formulaireAttraction.invalid">
+                <mat-icon>save</mat-icon>
+                Enregistrer
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-card>
+    </ng-container>
+  </div>
+
+  <!-- Message si aucune attraction -->
+  <div class="no-attractions" *ngIf="formulaireAttractions.length === 0">
+    <mat-icon>info</mat-icon>
+    <p>Aucune attraction. Cliquez sur "Nouvelle Attraction" pour commencer.</p>
+  </div>
+</div>
