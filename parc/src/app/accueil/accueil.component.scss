@@ -1,19 +1,256 @@
-.attraction-title {
-  font-size: 18px;
-  font-weight: 500;
-  background-color: darkgrey;
-  width: fit-content;
-  margin-top: 25px;
+.accueil-container {
+  padding: 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
 }
-.attraction {
-  display: flex;
-  align-items: center;
-  column-gap: 25px;
-  width: fit-content;
 
-  border-bottom: solid 1px grey;
-  span {
-    padding: 5px;
-    width: 250px;
+.header-section {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+  
+  h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    font-size: 3em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+    }
+  }
+  
+  .subtitle {
+    font-size: 1.3em;
+    opacity: 0.9;
+  }
+}
+
+.attractions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.attraction-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 16px !important;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+  }
+
+  mat-card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    color: white;
+    
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      
+      .attraction-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
+    }
+    
+    .difficulty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      span {
+        font-size: 0.9em;
+      }
+      
+      .difficulty-star {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: rgba(255, 255, 255, 0.5);
+        
+        &.filled {
+          color: #ffc107;
+        }
+      }
+    }
+  }
+
+  mat-card-content {
+    padding: 20px;
+    
+    .description {
+      font-size: 1.1em;
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .stats-section {
+      margin-bottom: 20px;
+      
+      mat-chip-set {
+        display: flex;
+        gap: 10px;
+      }
+      
+      .stat-chip {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background-color: #f5f5f5;
+        
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+          color: #ffc107;
+        }
+      }
+    }
+    
+    .add-critique-btn {
+      width: 100%;
+      height: 48px;
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      
+      mat-icon {
+        margin-right: 8px;
+      }
+      
+      &:hover {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      }
+    }
+  }
+}
+
+.critiques-panel {
+  margin-top: 20px;
+  border-radius: 8px;
+  
+  mat-expansion-panel-header {
+    background-color: #f8f9fa;
+    
+    mat-panel-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #667eea;
+      font-weight: 500;
+      
+      mat-icon {
+        color: #667eea;
+      }
+    }
+  }
+}
+
+.critiques-list {
+  padding: 15px 0;
+  
+  .critique-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    
+    .critique-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      
+      .critique-author {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #2c3e50;
+        
+        mat-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+          color: #667eea;
+        }
+      }
+      
+      .critique-rating {
+        display: flex;
+        gap: 2px;
+        
+        .rating-star {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          color: #ddd;
+          
+          &.filled {
+            color: #ffc107;
+          }
+        }
+      }
+    }
+    
+    .critique-text {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    
+    .critique-date {
+      font-size: 0.85em;
+      color: #999;
+      font-style: italic;
+    }
+  }
+}
+
+.no-attractions {
+  text-align: center;
+  padding: 60px 20px;
+  color: white;
+  
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 1.3em;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .accueil-container {
+    padding: 20px;
+  }
+  
+  .attractions-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .header-section h1 {
+    font-size: 2em;
   }
 }

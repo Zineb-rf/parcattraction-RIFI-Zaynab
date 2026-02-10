@@ -1,21 +1,96 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Bienvenue sur le site internet du parc d'attraction</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="attraction-title">
-      <div class="attraction">
-        <span>Nom de l'attraction</span>
-        <span>Description de l'attraction</span>
-        <span>Difficulté de l'attraction / 5</span>
-      </div>
-    </div>
-    <ng-container *ngFor="let attraction of attractions | async;">
-      <div class="attraction">
-        <span>{{attraction.nom}}</span>
-        <span>{{attraction.description}}</span>
-        <span>{{attraction.difficulte}} / 5</span>
-      </div>
+<div class="accueil-container">
+  <div class="header-section">
+    <h1>
+      <mat-icon>park</mat-icon>
+      Bienvenue au Parc d'Attractions
+    </h1>
+    <p class="subtitle">Découvrez nos attractions et partagez votre expérience !</p>
+  </div>
+
+  <div class="attractions-grid">
+    <ng-container *ngFor="let attraction of attractions | async">
+      <mat-card class="attraction-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon class="attraction-icon">attractions</mat-icon>
+            {{ attraction.nom }}
+          </mat-card-title>
+          <mat-card-subtitle>
+            <div class="difficulty">
+              <span>Difficulté:</span>
+              <mat-icon *ngFor="let star of getDifficultyStars(attraction.difficulte)" 
+                        [class.filled]="star === 'star'"
+                        class="difficulty-star">
+                {{ star }}
+              </mat-icon>
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="description">{{ attraction.description }}</p>
+
+          <!-- Statistiques des critiques -->
+          <div class="stats-section" *ngIf="getStats(attraction.attraction_id) as stats">
+            <mat-chip-set>
+              <mat-chip class="stat-chip">
+                <mat-icon>star</mat-icon>
+                {{ stats.note_moyenne | number:'1.1-1' }} / 5
+              </mat-chip>
+              <mat-chip class="stat-chip">
+                <mat-icon>comment</mat-icon>
+                {{ stats.nombre_critiques }} avis
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+
+          <!-- Bouton pour ajouter une critique -->
+          <button mat-raised-button color="primary" 
+                  class="add-critique-btn"
+                  (click)="openCritiqueModal(attraction)">
+            <mat-icon>rate_review</mat-icon>
+            Donner mon avis
+          </button>
+
+          <!-- Affichage des critiques -->
+          <mat-expansion-panel class="critiques-panel" 
+                               *ngIf="getCritiques(attraction.attraction_id).length > 0">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>reviews</mat-icon>
+                Voir les avis ({{ getCritiques(attraction.attraction_id).length }})
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="critiques-list">
+              <div class="critique-item" *ngFor="let critique of getCritiques(attraction.attraction_id)">
+                <div class="critique-header">
+                  <div class="critique-author">
+                    <mat-icon *ngIf="critique.anonyme">account_circle</mat-icon>
+                    <mat-icon *ngIf="!critique.anonyme">person</mat-icon>
+                    <strong>{{ getAuteurText(critique) }}</strong>
+                  </div>
+                  <div class="critique-rating">
+                    <mat-icon *ngFor="let i of [1,2,3,4,5]" 
+                              [class.filled]="i <= critique.note"
+                              class="rating-star">
+                      {{ i <= critique.note ? 'star' : 'star_border' }}
+                    </mat-icon>
+                  </div>
+                </div>
+                <p class="critique-text">{{ critique.texte }}</p>
+                <span class="critique-date">{{ critique.date_creation }}</span>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-card-content>
+      </mat-card>
     </ng-container>
-  </mat-card-content>
-</mat-card>
+  </div>
+
+  <!-- Message si aucune attraction -->
+  <div class="no-attractions" *ngIf="(attractions | async)?.length === 0">
+    <mat-icon>info</mat-icon>
+    <p>Aucune attraction disponible pour le moment.</p>
+  </div>
+</div>
