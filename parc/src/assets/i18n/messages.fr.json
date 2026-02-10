@@ -1,0 +1,83 @@
+{
+  "app": {
+    "title": "Parc d'Attractions",
+    "welcome": "Bienvenue au Parc d'Attractions"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "admin": "Administration",
+    "login": "Connexion",
+    "logout": "Déconnexion"
+  },
+  "home": {
+    "title": "Bienvenue au Parc d'Attractions",
+    "subtitle": "Découvrez nos attractions et partagez votre expérience !",
+    "no_attractions": "Aucune attraction disponible pour le moment."
+  },
+  "attraction": {
+    "name": "Nom de l'attraction",
+    "description": "Description",
+    "difficulty": "Difficulté",
+    "visible": "Visible",
+    "not_visible": "Non visible",
+    "difficulty_level": "Difficulté",
+    "add_review": "Donner mon avis",
+    "see_reviews": "Voir les avis",
+    "reviews_count": "avis"
+  },
+  "review": {
+    "title": "Donner votre avis sur {name}",
+    "your_rating": "Votre note",
+    "your_opinion": "Votre avis",
+    "placeholder": "Partagez votre expérience sur cette attraction...",
+    "min_length": "Minimum 10 caractères",
+    "anonymous": "Publier en anonyme",
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "submit": "Publier",
+    "cancel": "Annuler",
+    "success": "Critique ajoutée avec succès !",
+    "error": "Erreur lors de l'ajout de la critique",
+    "required": "Ce champ est requis",
+    "anonymous_user": "Anonyme",
+    "average_rating": "Note moyenne"
+  },
+  "admin": {
+    "title": "Panneau d'Administration",
+    "new_attraction": "Nouvelle Attraction",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "delete_confirm": "Êtes-vous sûr de vouloir supprimer cette attraction ?",
+    "name_required": "Le nom est requis",
+    "description_required": "La description est requise",
+    "difficulty_min": "Minimum 1",
+    "difficulty_max": "Maximum 5",
+    "difficulty_hint": "De 1 (facile) à 5 (difficile)",
+    "preview": "Aperçu",
+    "visible_to_visitors": "Visible par les visiteurs",
+    "hidden_from_visitors": "Masqué aux visiteurs",
+    "no_attractions": "Aucune attraction. Cliquez sur \"Nouvelle Attraction\" pour commencer.",
+    "success_save": "Attraction sauvegardée avec succès",
+    "success_delete": "Attraction supprimée avec succès",
+    "error_save": "Erreur lors de la sauvegarde",
+    "error_delete": "Erreur lors de la suppression"
+  },
+  "login": {
+    "title": "Connexion",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "submit": "Se connecter",
+    "error": "Nom d'utilisateur ou mot de passe incorrect"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "success": "Opération réussie",
+    "close": "Fermer",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter"
+  }
+}
