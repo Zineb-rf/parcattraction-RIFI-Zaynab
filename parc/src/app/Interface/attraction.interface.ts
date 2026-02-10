@@ -5,3 +5,4 @@ export interface AttractionInterface {
     difficulte: number,
     visible: boolean
 }
+
