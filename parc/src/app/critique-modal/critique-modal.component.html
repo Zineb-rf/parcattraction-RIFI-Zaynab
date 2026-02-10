@@ -1,0 +1,78 @@
+<div class="critique-modal">
+  <h2 mat-dialog-title>
+    <mat-icon>rate_review</mat-icon>
+    Donner votre avis sur {{ data.attractionNom }}
+  </h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="critiqueForm" class="critique-form">
+      
+      <!-- Système de notation par étoiles -->
+      <div class="rating-section">
+        <label>Votre note *</label>
+        <div class="stars">
+          <mat-icon 
+            *ngFor="let star of stars" 
+            (click)="selectRating(star)"
+            [class.selected]="star <= selectedRating"
+            class="star">
+            {{ star <= selectedRating ? 'star' : 'star_border' }}
+          </mat-icon>
+        </div>
+        <span class="rating-text" *ngIf="selectedRating > 0">
+          {{ selectedRating }} / 5
+        </span>
+      </div>
+
+      <!-- Texte de la critique -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Votre avis</mat-label>
+        <textarea 
+          matInput 
+          formControlName="texte" 
+          rows="5"
+          placeholder="Partagez votre expérience sur cette attraction..."
+          required>
+        </textarea>
+        <mat-hint>Minimum 10 caractères</mat-hint>
+        <mat-error *ngIf="critiqueForm.get('texte')?.hasError('required')">
+          Le texte est requis
+        </mat-error>
+        <mat-error *ngIf="critiqueForm.get('texte')?.hasError('minlength')">
+          Le texte doit contenir au moins 10 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Checkbox anonyme -->
+      <mat-checkbox formControlName="anonyme" class="anonyme-checkbox">
+        Publier en anonyme
+      </mat-checkbox>
+
+      <!-- Nom et Prénom (désactivés si anonyme) -->
+      <div class="name-fields" *ngIf="!critiqueForm.get('anonyme')?.value">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Prénom</mat-label>
+          <input matInput formControlName="prenom" placeholder="Votre prénom">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Nom</mat-label>
+          <input matInput formControlName="nom" placeholder="Votre nom">
+        </mat-form-field>
+      </div>
+
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Annuler</button>
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onSubmit()"
+      [disabled]="!critiqueForm.valid || selectedRating === 0">
+      <mat-icon>send</mat-icon>
+      Publier
+    </button>
+  </mat-dialog-actions>
+</div>
